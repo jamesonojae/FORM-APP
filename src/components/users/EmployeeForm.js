@@ -19,6 +19,7 @@ const EmployeeForm = () => {
     console.log(res.data);
     handleShowAlert();
     setShowAlert(true);
+    reset();
   };
   const handleShowAlert = () => {
     return (
