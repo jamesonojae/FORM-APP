@@ -1,29 +1,29 @@
 import React, {useState} from 'react';
-import { yupResolver } from "@hookform/resolvers/yup";
-import {signUpSchema} from '../utilities/models/signupSchema';
 import {useForm} from 'react-hook-form';
-import './form.css';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {contactSchema} from '../utilities/models/signupSchema';
 import axios from '../utilities/axios';
 import Alert from 'react-bootstrap/Alert';
 
-const EmployeeForm = () => {
+const CustomerForm = () => {
   const [showAlert, setShowAlert] = useState(false);
-
-
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
-    resolver: yupResolver(signUpSchema),
+    resolver: yupResolver(contactSchema),
   });
-  const createAccountDetails = async (data) => {
+  const sendMessage = async (data) => {
     console.log(data);
-    const res = await axios.post('/employees/createWebEmployer', data);
+    console.log(data);
+    const res = await axios.post('/general/createContactUs', data);
     console.log(res.data);
     handleShowAlert();
     setShowAlert(true);
-  };
+    reset()
+  }
+
   const handleShowAlert = () => {
     return (
         <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
-          Congratulations! You have Registered Successfully
+          Your Message is Received, We Will Contact You Shortly
         </Alert>
     );
   };
@@ -35,10 +35,11 @@ const EmployeeForm = () => {
               <div className="card" >
                 <div className="card-body">
                   <div className="pb-4 text-center">
-                    <h3 className="mb-2 text-primary">Create your account</h3>
-                    <>{showAlert && handleShowAlert()}</>
+                    <h3 className="mb-2 text-primary">Contact Us</h3>
+                    <span>{showAlert && handleShowAlert()}</span>
+
                   </div>
-                  <form onSubmit={handleSubmit(createAccountDetails)} >
+                  <form onSubmit={handleSubmit(sendMessage)} >
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group mb-3">
@@ -60,32 +61,10 @@ const EmployeeForm = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group mb-3">
-                          <label className="form-label text-primary">Other Name</label>
-                          <input type="text" name="otherName" className="form-control"
-                                 placeholder="Enter User Name" {...register("otherName")}
-                          />
-                          {/*<div className="redText">{errors.otherName?.message}</div>*/}
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group mb-3">
                           <label className="form-label text-primary">Email address</label>
                           <input type="email" name="email" className="form-control" placeholder="email@gmail.com"
                                  {...register("email")}/>
                           <div className="redText">{errors.email?.message}</div>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div>
-                          <label htmlFor="name" className="form-label text-primary">Gender</label>
-                          <select className="form-control" name="gender" {...register("gender")}>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="preferNotToSpecify">Prefer not to specify</option>
-
-                          </select>
-
-                          <div className="redText">{errors.gender?.message}</div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -98,40 +77,29 @@ const EmployeeForm = () => {
                         </div>
                       </div>
                       <div className="col-md-12">
-                        <label className="form-label text-primary">Address</label>
-                        <textarea className="form-control" name="address" {...register("address")}>
+                        <div className="form-group mb-3">
+                          <label className="form-label text-primary">Subject</label>
+                          <input type="text" name="subject" className="form-control"
+                                 placeholder="Enter User Name" {...register("subject")}
+                          />
+                          <div className="redText">{errors.subject?.message}</div>
+                        </div>
+                      </div>
+
+                      <div className="col-md-12">
+                        <label className="form-label text-primary">Message</label>
+                        <textarea className="form-control" name="userMessage" {...register("userMessage")} rows="5">
 
                         </textarea>
-                        <div className="redText">{errors.address?.message}</div>
+                        <div className="redText">{errors.userMessage?.message}</div>
                       </div>
-                    </div>
-
-
-                    <div className="form-group mb-3">
-                      <label className="form-label text-primary">Password</label>
-                      <div className="input-group">
-                        <input name="password" className="form-control" placeholder="***********"
-                               {...register("password")}/>
-
-                      </div>
-                      <div className="redText">{errors.password?.message}</div>
-                    </div>
-                    <div className="form-group mb-3">
-                      <label className="form-label text-primary">Confirm Password</label>
-                      <div className="input-group">
-                        <input name="confirmPassword" className="form-control" placeholder="***********"
-                               {...register("confirmPassword")}/>
-
-                      </div>
-
-                      <div className="redText">{errors.confirmPassword && "Password Mismatch"}</div>
                     </div>
 
                     <div className="py-2">
                       {/*<NavLink to="/continue-sign-up" className="btn btn-primary w-100">
                           Create account
                         </NavLink>*/}
-                      <button className="btn btn-primary w-100" type="submit">Create account</button>
+                      <button className="btn btn-primary w-100" type="submit">Send Message</button>
                     </div>
 
                     {/*<div className="row">
@@ -153,4 +121,4 @@ const EmployeeForm = () => {
   );
 };
 
-export default EmployeeForm;
+export default CustomerForm;
