@@ -13,6 +13,15 @@ export const signUpSchema = Yup.object().shape({
       .required(),
   phoneNumber: Yup.string().min(10).max(10).required(),
   address: Yup.string().min(5).required(),
+  userAddress: Yup.string().min(5).required(),
+  localGovt: Yup.string().required(),
+  state: Yup.string().required(),
+  cacNumber: Yup.string().required(),
+  industry: Yup.string().required(),
+  businessName: Yup.string().required(),
+  about: Yup.string().required(),
+  businessEmail: Yup.string().required(),
+  businessPhone: Yup.string().required(),
 });
 
 export const contactSchema = Yup.object().shape({
